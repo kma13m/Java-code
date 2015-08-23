@@ -1,0 +1,66 @@
+public class SearchEngine {
+	public static void main(String[] args) {
+		System.out.println("Creating Index and Scraping Pages");
+		
+		// Create a new PageIndex object
+		 
+		PageIndex i = new PageIndex();
+		
+		/* Call the addPage method from this class
+		 * 		to add the following websites to your index
+		 * 		http://pic.fsu.edu/
+		 * 		http://pic.fsu.edu/about.php
+		 * 		http://pic.fsu.edu/people.php
+		 * 		http://pic.fsu.edu/students.php */
+		
+		addPage(i,"http://pic.fsu.edu/");
+		addPage(i,"http://pic.fsu.edu/about.php");
+		addPage(i,"http://pic.fsu.edu/people.php");
+		addPage(i,"http://pic.fsu.edu/students.php");
+		
+		
+		System.out.println("System ready for queries");
+		
+		/* Open a input dialog using the JOptionPane class 
+		 *		and ask for a word to search the index.
+		 * 		Get the word to search for as a result String.
+		 */
+	String input = JOptionPane.showInputDialog("Enter a word to search the index");
+		
+		
+		/* Search the PageIndex for the word requested
+		 * get the result that returns from the search
+		 */
+		String noresult = "No results are given";
+		String results = i.search(input);
+		
+		/* Output the search result either to the console 
+		 * 		or using a JOptionPane message dialog.
+		 * 		If the result from searching is blank "", 
+		 * 		print out "No results found"
+		 */
+		
+		if (results == ""){
+			JOptionPane.showMessageDialog(null, noresult);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, results);
+		}
+	}
+	
+	/**
+	 * Describe what this method does here.
+	 * @param i
+	 * @param location
+	 */
+	public static void addPage(PageIndex i, String location) {
+		// Get the html code from the location provided to this method using the WebGet class
+		
+		String html = WebGet.httpget(location);
+		// Create a new page object using the html code to the code you downloaded
+		Page p = new Page(html);
+		
+		// Add an entry into the PageIndex i
+		i.addEntry(location, p);
+	}
+}
